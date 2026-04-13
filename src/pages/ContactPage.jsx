@@ -27,7 +27,7 @@ const ContactPage = () => {
                      <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center text-primary group-hover:bg-white group-hover:text-primary"><Mail size={24} /></div>
                      <div>
                         <p className="text-xs font-bold text-accent/40 group-hover:text-white/60 mb-1 uppercase tracking-widest">Email Us</p>
-                        <p className="text-xl font-black text-accent group-hover:text-white">info@trustsafe.com</p>
+                        <p className="text-xl font-black text-accent group-hover:text-white">info@weldoseld.com</p>
                      </div>
                   </div>
                   <div className="bg-white p-10 rounded-[3rem] shadow-sm flex items-center gap-6 group hover:bg-primary transition-all duration-500 hover:scale-105">

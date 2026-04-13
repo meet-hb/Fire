@@ -18,7 +18,7 @@ const Hero = ({ data }) => {
               <div className="flex items-center gap-3 mb-8">
                 <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
                 <span className="text-primary font-bold tracking-[0.2em] uppercase text-xs sm:text-sm">
-                  {data?.tagline || 'WELCOME TO TRUSTSAFE'}
+                  {data?.tagline || 'WELCOME TO WELDOSELD'}
                 </span>
               </div>
               <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-[1.1] mb-8 lg:mb-10 max-w-xl">

@@ -106,7 +106,7 @@ const Footer = ({ data }) => {
         </div>
 
         <div className="pt-10 lg:pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 lg:gap-8 text-center md:text-left">
-          <p className="text-white/20 text-[9px] lg:text-[10px] font-bold uppercase tracking-[0.2em]">© 2026 Trustsafe. Engineered for ultimate protection.</p>
+          <p className="text-white/20 text-[9px] lg:text-[10px] font-bold uppercase tracking-[0.2em]">© 2026 WELDOSELD. Engineered for ultimate protection.</p>
           <div className="flex flex-wrap justify-center gap-6 lg:gap-10">
             <a href="#" className="text-white/20 text-[9px] lg:text-[10px] font-bold uppercase tracking-[0.2em] hover:text-primary transition-colors">Privacy Policy</a>
             <a href="#" className="text-white/20 text-[9px] lg:text-[10px] font-bold uppercase tracking-[0.2em] hover:text-primary transition-colors">Term of Services</a>

@@ -1,6 +1,6 @@
 export const content = {
   navigation: {
-    logo: "Trustsafe",
+    logo: "WELDOSELD",
     links: [
       "Home",
       "About",
@@ -16,7 +16,7 @@ export const content = {
     cta: "Contact Us",
     topBar: {
       phone: "+61 8 0000 000",
-      email: "info@trustsafe.com",
+      email: "info@weldoseld.com",
       address: "123 Safety St, Australia"
     }
   },

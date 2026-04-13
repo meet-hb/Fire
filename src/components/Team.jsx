@@ -14,7 +14,7 @@ const Team = ({ data }) => {
               {data.badge}
             </div>
             <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-accent leading-[1.2] lg:leading-tight">
-              Trustsafe team consultant
+              WELDOSELD team consultant
             </h2>
           </div>
           <button className="hidden sm:flex items-center gap-3 bg-secondary-light text-primary border border-primary/20 px-10 py-4 rounded-full font-bold hover:bg-primary hover:text-white transition-all shadow-xl shadow-primary/5 text-xs uppercase tracking-widest font-black">

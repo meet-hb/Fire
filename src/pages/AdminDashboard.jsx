@@ -66,6 +66,7 @@ const AdminDashboard = () => {
       current[field] = value;
       return newData;
     });
+  };
 
   const handleArrayUpdate = (index, field, value, arrayField = null) => {
     setData(prev => {

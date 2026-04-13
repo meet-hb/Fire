@@ -1,3 +1,4 @@
+import pool from "./config/db.js";
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -29,6 +30,17 @@ const db = new Pool({
   password: String(process.env.DB_PASSWORD),
   port: 5432,
 });
+
+const testDB = async () => {
+  try {
+    const res = await pool.query("SELECT NOW()");
+    console.log("DB Connected:", res.rows);
+  } catch (err) {
+    console.error("DB Error:", err);
+  }
+};
+
+testDB();
 
 db.connect()
   .then(() => console.log('✅ Connected to PostgreSQL'))

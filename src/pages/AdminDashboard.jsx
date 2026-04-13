@@ -15,6 +15,7 @@ const AdminDashboard = () => {
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState('');
+  const [previewMode, setPreviewMode] = useState('desktop');
 
   const menuItems = [
     { id: 'overview', label: 'Dashboard', icon: BarChart3 },
@@ -210,15 +211,21 @@ const AdminDashboard = () => {
 
           <div className="flex items-center gap-6">
             <div className="hidden sm:flex items-center gap-6 bg-slate-50 px-6 py-3 rounded-2xl border border-slate-100">
-               <div className="flex flex-col items-center gap-0.5">
-                  <Laptop size={16} className="text-primary" />
-                  <span className="text-[10px] font-black text-slate-400 uppercase">Desktop</span>
-               </div>
+               <button 
+                onClick={() => setPreviewMode('desktop')}
+                className={`flex flex-col items-center gap-0.5 transition-all ${previewMode === 'desktop' ? 'text-primary scale-110' : 'text-slate-400 opacity-40 hover:opacity-100'}`}
+               >
+                  <Laptop size={16} />
+                  <span className="text-[10px] font-black uppercase">Desktop</span>
+               </button>
                <div className="w-px h-6 bg-slate-200" />
-               <div className="flex flex-col items-center gap-0.5 opacity-30">
+               <button 
+                onClick={() => setPreviewMode('mobile')}
+                className={`flex flex-col items-center gap-0.5 transition-all ${previewMode === 'mobile' ? 'text-primary scale-110' : 'text-slate-400 opacity-40 hover:opacity-100'}`}
+               >
                   <Smartphone size={16} />
                   <span className="text-[10px] font-black uppercase">Mobile</span>
-               </div>
+               </button>
             </div>
             <a 
               href="/" 
@@ -244,8 +251,8 @@ const AdminDashboard = () => {
         </header>
 
         {/* Dashboard Content */}
-        <main className="p-8 lg:p-12 bg-[#F8F9FA] min-h-[calc(100vh-96px)]">
-          <div className="max-w-[1400px] mx-auto">
+        <main className={`p-8 lg:p-12 bg-[#F8F9FA] min-h-[calc(100vh-96px)] transition-all duration-500 flex flex-col items-center ${previewMode === 'mobile' ? 'max-w-[480px] mx-auto shadow-[0_0_100px_rgba(0,0,0,0.1)] border-x border-slate-200' : ''}`}>
+          <div className="max-w-[1400px] w-full mx-auto">
             
             {/* Header Title Section */}
             <div className="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">

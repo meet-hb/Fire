@@ -91,6 +91,22 @@ export const content = {
       services: ["Audits", "Training", "Maintenance"],
       support: ["Contact Us", "Privacy Policy", "Terms"]
     }
+  },
+  expertise: {
+    badge: "WHO WE ARE",
+    title: "Unlock your potential with our expertise",
+    description: "Fire incidents can strike without warning, causing damage, disruption, and putting lives at risk. That’s why having a trusted fire protection partner is essential.",
+    subtitle: "Certified and Experienced in fire protections",
+    subdescription: "From advanced alarm systems and extinguishers to custom evacuation plans, our certified professionals handle every detail with care, precision, and urgency.",
+    image: "https://images.unsplash.com/photo-1599059021644-80252390a424?w=800&h=800&fit=crop",
+    stats: [
+        { label: "Satisfied Customers", value: "98%" },
+        { label: "Projects Completed", value: "20K" }
+    ],
+    points: [
+        "Let us help you build a custom fire protection plan.",
+        "From inspections to installations we've got you covered."
+    ]
   }
 };
 

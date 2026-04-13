@@ -68,7 +68,7 @@ function AppContent() {
           services: services || content.services,
           about: about || content.about,
           features: features || [],
-          expertise: expertise || null
+          expertise: expertise || content.expertise
         });
       } catch (err) {
         console.warn("Backend not ready yet, using static content.");

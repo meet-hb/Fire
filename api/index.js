@@ -118,11 +118,21 @@ app.get("/api/setup", async (req, res) => {
       );
     `);
 
+        await pool.query(`
+      INSERT INTO site_content (section_name, content)
+      VALUES 
+      ('navigation', '{"menu": ["Home", "About", "Services", "Contact"]}')
+      ON CONFLICT (section_name) DO UPDATE 
+      SET content = EXCLUDED.content;
+    `);
+
         res.json({
             success: true,
-            message: "✅ Database setup complete",
+            message: "✅ Setup + Data Inserted",
         });
+
     } catch (err) {
+        console.error(err);
         res.status(500).json({ error: err.message });
     }
 });

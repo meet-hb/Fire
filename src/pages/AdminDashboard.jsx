@@ -14,6 +14,7 @@ const AdminDashboard = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [message, setMessage] = useState('');
   const [previewMode, setPreviewMode] = useState('desktop');
   const [isProfileOpen, setIsProfileOpen] = useState(false);
 

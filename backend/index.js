@@ -1,4 +1,4 @@
-import pool from "./config/db.js";
+import pool from "../api/db.js";
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');

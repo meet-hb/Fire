@@ -114,6 +114,8 @@ const AdminDashboard = () => {
     });
   };
 
+  const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:5000/api' : '/api';
+
   const handleImageUpload = async (e, callback) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -123,7 +125,7 @@ const AdminDashboard = () => {
 
     try {
       setSaving(true);
-      const res = await fetch('http://localhost:5000/api/upload', {
+      const res = await fetch(`${API_URL}/upload`, {
         method: 'POST',
         body: formData,
       });
@@ -285,7 +287,7 @@ const AdminDashboard = () => {
                  <p className="max-w-xs text-slate-400 font-medium text-sm leading-relaxed mb-8">It seems your PostgreSQL database tables are empty or the backend server is not reachable.</p>
                  <div className="flex gap-4">
                     <button onClick={() => window.location.reload()} className="bg-primary text-white px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-widest">Retry Connection</button>
-                    <a href="http://localhost:5000/api/setup" target="_blank" className="bg-slate-900 text-white px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-widest">Run Setup Script</a>
+                    <a href={`${API_URL}/setup`} target="_blank" className="bg-slate-900 text-white px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-widest">Run Setup Script</a>
                  </div>
               </div>
             ) : (

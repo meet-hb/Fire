@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 const Navbar = ({ data }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
+  const [mobileDropdown, setMobileDropdown] = useState(null);
 
   const productLinks = [
     { title: "Fire Alarms", path: "/products/alarms" },
@@ -215,18 +216,43 @@ const Navbar = ({ data }) => {
               <div className="flex-1 overflow-y-auto p-8 space-y-4">
                 {Array.isArray(data?.links) && data.links.map((link) => (
                   <div key={link}>
-                    {link === 'Products' ? (
+                    {link === 'Products' || link === 'Home' ? (
                       <div className="space-y-2">
-                        <button className="w-full text-accent font-black uppercase tracking-[0.2em] text-xs py-4 flex justify-between items-center border-b border-gray-50">
-                          {link} <ChevronDown size={14} className="text-primary" />
+                        <button 
+                          onClick={() => setMobileDropdown(mobileDropdown === link ? null : link)}
+                          className="w-full text-accent font-black uppercase tracking-[0.2em] text-xs py-4 flex justify-between items-center border-b border-gray-50 group"
+                        >
+                          {link} 
+                          <ChevronDown 
+                            size={14} 
+                            className={`text-primary transition-transform duration-300 ${mobileDropdown === link ? 'rotate-180' : ''}`} 
+                          />
                         </button>
-                        <div className="pl-4 space-y-1">
-                          {productLinks.map(sub => (
-                            <Link key={sub.title} to={sub.path} onClick={() => setIsMenuOpen(false)} className="block py-3 text-[10px] font-bold text-accent/40 uppercase tracking-widest hover:text-primary">
-                              {sub.title}
-                            </Link>
-                          ))}
-                        </div>
+                        <AnimatePresence>
+                          {mobileDropdown === link && (
+                            <motion.div 
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: 'auto', opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              className="pl-4 space-y-1 overflow-hidden"
+                            >
+                              {(link === 'Products' ? productLinks : homeLinks).map(sub => (
+                                <Link 
+                                  key={sub.title} 
+                                  to={sub.path} 
+                                  onClick={() => {
+                                    setIsMenuOpen(false);
+                                    setMobileDropdown(null);
+                                  }} 
+                                  className="block py-4 text-[10px] font-bold text-accent/40 uppercase tracking-widest hover:text-primary transition-all flex items-center justify-between group/sub"
+                                >
+                                  {sub.title}
+                                  <ArrowRight size={10} className="opacity-0 group-hover/sub:opacity-100 transition-all -translate-x-2 group-hover/sub:translate-x-0" />
+                                </Link>
+                              ))}
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
                       </div>
                     ) : (
                       <Link

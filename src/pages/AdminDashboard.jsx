@@ -22,6 +22,7 @@ const AdminDashboard = () => {
     { id: 'overview', label: 'Dashboard', icon: BarChart3 },
     { id: 'navigation', label: 'Navigation', icon: Layout },
     { id: 'hero', label: 'Hero Banner', icon: FileText },
+    { id: 'expertise', label: 'Expertise', icon: Flame },
     { id: 'about', label: 'About Us', icon: Users },
     { id: 'features', label: 'Features', icon: Layout },
     { id: 'services', label: 'Services', icon: Shield },
@@ -424,6 +425,62 @@ const AdminDashboard = () => {
                         />
                      </div>
                   </SectionCard>
+                )}
+
+                {activeTab === 'expertise' && data && (
+                   <SectionCard title="Expertise Section">
+                      <div className="space-y-10">
+                         <div className={`grid gap-10 ${previewMode === 'mobile' ? 'grid-cols-1' : 'md:grid-cols-2'}`}>
+                            <InputField label="Badge" value={data.badge} onChange={v => handleChange('badge', v)} />
+                            <InputField label="Main Title" value={data.title} onChange={v => handleChange('title', v)} />
+                         </div>
+                         <TextAreaField label="Description" value={data.description} onChange={v => handleChange('description', v)} rows={3} />
+                         <div className={`grid gap-10 ${previewMode === 'mobile' ? 'grid-cols-1' : 'md:grid-cols-2'}`}>
+                            <InputField label="Subtitle" value={data.subtitle} onChange={v => handleChange('subtitle', v)} />
+                            <TextAreaField label="Sub-description" value={data.subdescription} onChange={v => handleChange('subdescription', v)} rows={2} />
+                         </div>
+                         <ImageUploadField 
+                            label="Expertise Image" 
+                            value={data.image} 
+                            onChange={v => handleChange('image', v)} 
+                            onUpload={(e) => handleImageUpload(e, (url) => handleChange('image', url))}
+                         />
+                         <div className="space-y-6">
+                            <p className="text-xs font-black uppercase text-slate-400 tracking-widest">Circular Stats</p>
+                            {Array.isArray(data.stats) && data.stats.map((stat, i) => (
+                               <div key={i} className={`grid gap-6 bg-slate-50 p-6 rounded-3xl border border-slate-100 ${previewMode === 'mobile' ? 'grid-cols-1' : 'grid-cols-2'}`}>
+                                  <InputField label="Value (e.g. 98%)" value={stat.value} onChange={v => {
+                                      const newStats = [...data.stats];
+                                      newStats[i].value = v;
+                                      handleChange('stats', newStats);
+                                  }} />
+                                  <InputField label="Label" value={stat.label} onChange={v => {
+                                      const newStats = [...data.stats];
+                                      newStats[i].label = v;
+                                      handleChange('stats', newStats);
+                                  }} />
+                                </div>
+                            ))}
+                         </div>
+                         <div className="space-y-6">
+                            <p className="text-xs font-black uppercase text-slate-400 tracking-widest">Feature Points</p>
+                            {Array.isArray(data.points) && data.points.map((point, i) => (
+                               <div key={i} className="flex gap-4">
+                                  <InputField value={point} onChange={v => {
+                                      const newPoints = [...data.points];
+                                      newPoints[i] = v;
+                                      handleChange('points', newPoints);
+                                  }} />
+                                  <button onClick={() => {
+                                      const newPoints = data.points.filter((_, idx) => idx !== i);
+                                      handleChange('points', newPoints);
+                                  }} className="bg-red-50 text-red-500 p-4 rounded-2xl hover:bg-red-500 hover:text-white transition-all"><Trash2 size={20} /></button>
+                               </div>
+                            ))}
+                            <button onClick={() => handleChange('points', [...(data.points || []), "New Feature Point"])} className="text-primary font-black text-xs uppercase tracking-widest flex items-center gap-2 pt-4"><Plus size={16} /> Add Point</button>
+                         </div>
+                      </div>
+                   </SectionCard>
                 )}
 
                  {activeTab === 'about' && data && (

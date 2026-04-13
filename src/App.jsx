@@ -51,13 +51,14 @@ function AppContent() {
     const fetchGlobalData = async () => {
       try {
         // Fetch everything in parallel for speed
-        const [nav, footer, hero, services, about, features] = await Promise.all([
+        const [nav, footer, hero, services, about, features, expertise] = await Promise.all([
           getContent('navigation'),
           getContent('footer'),
           getContent('hero'),
           getContent('services'),
           getContent('about'),
-          getContent('features')
+          getContent('features'),
+          getContent('expertise')
         ]);
 
         setNavData(nav || content.navigation);
@@ -66,7 +67,8 @@ function AppContent() {
           hero: hero || content.hero,
           services: services || content.services,
           about: about || content.about,
-          features: features || []
+          features: features || [],
+          expertise: expertise || null
         });
       } catch (err) {
         console.warn("Backend not ready yet, using static content.");

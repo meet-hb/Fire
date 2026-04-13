@@ -1,0 +1,33 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary-light: #FF7D45;
+  --color-primary: #F26522;
+  --color-primary-dark: #D94E0D;
+  --color-secondary-light: #FFF8F1;
+  --color-secondary: #FEF3E2;
+  --color-secondary-dark: #1C1510;
+  --color-accent: #2D1E16;
+}
+
+@layer base {
+  body {
+    @apply bg-secondary-light text-accent overflow-x-hidden;
+  }
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.dark-section {
+  background-color: #1C1510;
+  color: white;
+}

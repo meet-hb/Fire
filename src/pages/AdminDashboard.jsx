@@ -145,17 +145,41 @@ const AdminDashboard = () => {
 
   return (
     <div className="min-h-screen bg-[#F8F9FA] flex font-sans text-slate-800">
-      {/* 🚀 Sleek Sidebar */}
+      {/* 🚀 Sleek Sidebar Backdrop (Mobile Only) */}
+      <AnimatePresence>
+        {isSidebarOpen && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsSidebarOpen(false)}
+            className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[49] lg:hidden"
+          />
+        )}
+      </AnimatePresence>
+
       <motion.aside
         initial={false}
-        animate={{ width: isSidebarOpen ? 288 : 0, opacity: isSidebarOpen ? 1 : 0 }}
+        animate={{ 
+          width: isSidebarOpen ? 288 : 0, 
+          opacity: isSidebarOpen ? 1 : 0,
+          x: isSidebarOpen ? 0 : -20 
+        }}
         className="fixed inset-y-0 left-0 bg-[#1A1A1A] text-white z-50 flex flex-col shadow-2xl overflow-hidden"
       >
-        <div className="p-8 flex items-center gap-3">
-          <div className="bg-primary p-2 rounded-xl shadow-lg shadow-primary/20">
-            <Flame size={24} className="text-white" />
+        <div className="p-8 flex items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <div className="bg-primary p-2 rounded-xl shadow-lg shadow-primary/20">
+              <Flame size={24} className="text-white" />
+            </div>
+            <span className="text-xl font-black uppercase tracking-tighter italic whitespace-nowrap">Admin Control</span>
           </div>
-          <span className="text-xl font-black uppercase tracking-tighter italic whitespace-nowrap">Admin Control</span>
+          <button 
+            onClick={() => setIsSidebarOpen(false)}
+            className="lg:hidden p-2 text-white/40 hover:text-white"
+          >
+            <X size={24} />
+          </button>
         </div>
 
         <nav className="flex-1 px-4 mt-4 space-y-1 overflow-y-auto custom-scrollbar">
@@ -163,7 +187,10 @@ const AdminDashboard = () => {
           {menuItems.map(item => (
             <button
               key={item.id}
-              onClick={() => setActiveTab(item.id)}
+              onClick={() => {
+                setActiveTab(item.id);
+                if (window.innerWidth < 1024) setIsSidebarOpen(false);
+              }}
               className={`w-full flex items-center justify-between px-4 py-3.5 rounded-2xl transition-all group ${
                 activeTab === item.id 
                 ? 'bg-primary text-white shadow-xl shadow-primary/20' 

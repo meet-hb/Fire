@@ -299,7 +299,7 @@ const AdminDashboard = () => {
               </div>
             ) : (
               <div className="space-y-10">
-                {activeTab === 'overview' && <OverviewView />}
+                {activeTab === 'overview' && <OverviewView previewMode={previewMode} />}
                 
                 {activeTab === 'navigation' && data && (
                    <SectionCard title="Navigation & Branding">
@@ -310,7 +310,7 @@ const AdminDashboard = () => {
                             onChange={v => handleChange('logo', v)} 
                             onUpload={(e) => handleImageUpload(e, (url) => handleChange('logo', url))}
                          />
-                         <div className="grid md:grid-cols-2 gap-10">
+                          <div className={`grid gap-10 ${previewMode === 'mobile' ? 'grid-cols-1' : 'md:grid-cols-2'}`}>
                             <InputField label="Phone Number" value={data.topBar?.phone} onChange={v => handleChange('phone', v, ['topBar'])} />
                             <InputField label="Email Address" value={data.topBar?.email} onChange={v => handleChange('email', v, ['topBar'])} />
                             <InputField label="Physical Address" value={data.topBar?.address} onChange={v => handleChange('address', v, ['topBar'])} />
@@ -338,7 +338,7 @@ const AdminDashboard = () => {
                  {activeTab === 'about' && data && (
                     <SectionCard title="About Us Content">
                        <div className="space-y-10">
-                          <div className="grid md:grid-cols-2 gap-10">
+                          <div className={`grid gap-10 ${previewMode === 'mobile' ? 'grid-cols-1' : 'md:grid-cols-2'}`}>
                              <ImageUploadField 
                                label="Main About Image" 
                                value={data.image} 
@@ -352,7 +352,7 @@ const AdminDashboard = () => {
                                onUpload={(e) => handleImageUpload(e, (url) => handleChange('image2', url))}
                              />
                           </div>
-                          <div className="grid md:grid-cols-2 gap-10">
+                          <div className={`grid gap-10 ${previewMode === 'mobile' ? 'grid-cols-1' : 'md:grid-cols-2'}`}>
                              <InputField label="Main Heading" value={data.title} onChange={v => handleChange('title', v)} />
                              <InputField label="Sub-heading" value={data.subtitle} onChange={v => handleChange('subtitle', v)} />
                           </div>
@@ -361,7 +361,7 @@ const AdminDashboard = () => {
                           <div className="space-y-6">
                              <p className="text-xs font-black uppercase text-slate-400 tracking-widest">Key Statistics</p>
                              {Array.isArray(data.stats) && data.stats.map((stat, i) => (
-                                <div key={i} className="grid grid-cols-2 gap-6 bg-slate-50 p-6 rounded-3xl border border-slate-100">
+                                <div key={i} className={`grid gap-6 bg-slate-50 p-6 rounded-3xl border border-slate-100 ${previewMode === 'mobile' ? 'grid-cols-1' : 'grid-cols-2'}`}>
                                    <InputField label="Label" value={stat.label} onChange={v => handleArrayUpdate(i, 'label', v, 'stats')} />
                                    <InputField label="Value" value={stat.value} onChange={v => handleArrayUpdate(i, 'value', v, 'stats')} />
                                 </div>
@@ -373,7 +373,7 @@ const AdminDashboard = () => {
 
                 {/* Array based sections (Services, Features, Brands, Videos, Gallery, Certs, Clients) */}
                 {['services', 'features', 'brands', 'videos', 'certs', 'clients'].includes(activeTab) && data && (
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                  <div className={`grid gap-8 ${previewMode === 'mobile' ? 'grid-cols-1' : 'grid-cols-1 lg:grid-cols-2'}`}>
                      {(Array.isArray(data) ? data : (Array.isArray(data?.items) ? data.items : [])).map((item, i) => (
                         <SectionCard key={i} title={`${activeTab.slice(0, -1)} #${i + 1}`}>
                            <div className="space-y-6">
@@ -417,7 +417,7 @@ const AdminDashboard = () => {
                 {activeTab === 'gallery' && data && (
                   <SectionCard title="Image Library">
                      <p className="text-sm text-slate-400 font-medium mb-10 -mt-6 italic">Manage all portfolio and gallery visuals.</p>
-                     <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
+                     <div className={`grid gap-6 ${previewMode === 'mobile' ? 'grid-cols-2' : 'grid-cols-2 md:grid-cols-4 lg:grid-cols-5'}`}>
                         {Array.isArray(data) && data.map((url, i) => (
                            <div key={i} className="relative group rounded-3xl overflow-hidden aspect-square border-2 border-slate-100 shadow-sm transition-all hover:shadow-xl">
                               <img src={url} alt="Gallery" className="w-full h-full object-cover" />
@@ -464,7 +464,7 @@ const AdminDashboard = () => {
                         rows={3}
                       />
                       
-                      <div className="grid md:grid-cols-3 gap-8">
+                      <div className={`grid gap-8 ${previewMode === 'mobile' ? 'grid-cols-1' : 'md:grid-cols-3'}`}>
                         <InputField label="Contact Phone" value={data.contact?.phone} onChange={v => handleChange('phone', v, ['contact'])} />
                         <InputField label="Contact Email" value={data.contact?.email} onChange={v => handleChange('email', v, ['contact'])} />
                         <InputField label="Office Address" value={data.contact?.address} onChange={v => handleChange('address', v, ['contact'])} />
@@ -472,7 +472,7 @@ const AdminDashboard = () => {
 
                       <div className="space-y-6">
                         <p className="text-xs font-black uppercase text-slate-400 tracking-widest">Footer Service Links</p>
-                        <div className="grid md:grid-cols-2 gap-4">
+                        <div className={`grid gap-4 ${previewMode === 'mobile' ? 'grid-cols-1' : 'md:grid-cols-2'}`}>
                           {Array.isArray(data.links?.services) && data.links.services.map((link, i) => (
                             <div key={i} className="flex gap-4 items-center">
                               <div className="flex-1">
@@ -536,25 +536,25 @@ const AdminDashboard = () => {
 
 // --- Helper Components ---
 
-const OverviewView = () => (
+const OverviewView = ({ previewMode }) => (
   <div className="space-y-10">
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div className={`grid gap-8 ${previewMode === 'mobile' ? 'grid-cols-1' : 'grid-cols-1 md:grid-cols-3'}`}>
       <StatCard label="Total Reach" value="47k+" growth="+12%" icon={Users} color="bg-blue-500" />
       <StatCard label="Response Rate" value="98.2%" growth="+1.4%" icon={Activity} color="bg-green-500" />
       <StatCard label="Active Alerts" value="02" growth="Stable" icon={Shield} color="bg-primary" />
     </div>
     
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-       <div className="lg:col-span-2 bg-white p-10 rounded-[3rem] shadow-sm border border-slate-100 min-h-[450px] relative overflow-hidden">
-          <div className="flex items-center justify-between mb-10">
+    <div className={`grid gap-8 ${previewMode === 'mobile' ? 'grid-cols-1' : 'grid-cols-1 lg:grid-cols-3'}`}>
+       <div className={`${previewMode === 'mobile' ? 'col-span-1' : 'lg:col-span-2'} bg-white p-10 rounded-[3rem] shadow-sm border border-slate-100 min-h-[450px] relative overflow-hidden`}>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-10 gap-4">
             <h3 className="text-2xl font-black text-slate-900">Traffic Intelligence</h3>
             <div className="flex gap-2">
                {['D', 'W', 'M', 'Y'].map(t => <button key={t} className={`w-10 h-10 rounded-xl font-bold text-xs ${t === 'W' ? 'bg-primary text-white shadow-lg' : 'bg-slate-50 text-slate-400'}`}>{t}</button>)}
             </div>
           </div>
-          <div className="flex items-end justify-between h-64 gap-3">
+          <div className="flex items-end justify-between h-64 gap-2 sm:gap-3 overflow-hidden">
              {[40, 25, 65, 85, 45, 95, 100, 75, 55, 80].map((h, i) => (
-                <div key={i} className="flex-1 bg-slate-50 rounded-2xl group relative h-full">
+                <div key={i} className="flex-1 bg-slate-50 rounded-2xl group relative h-full min-w-[12px]">
                    <motion.div initial={{ height: 0 }} animate={{ height: `${h}%` }} className="absolute bottom-0 left-0 right-0 bg-primary/10 rounded-2xl group-hover:bg-primary transition-all cursor-pointer" />
                 </div>
              ))}

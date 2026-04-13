@@ -14,8 +14,8 @@ const AdminDashboard = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
-  const [message, setMessage] = useState('');
   const [previewMode, setPreviewMode] = useState('desktop');
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
 
   const menuItems = [
     { id: 'overview', label: 'Dashboard', icon: BarChart3 },
@@ -224,60 +224,118 @@ const AdminDashboard = () => {
       <div className={`flex-1 flex flex-col transition-all duration-300 ${isSidebarOpen ? 'lg:pl-72' : ''}`}>
         
         {/* Top Professional Header */}
-        <header className="h-24 bg-white/80 backdrop-blur-md border-b border-slate-200 flex items-center justify-between px-10 sticky top-0 z-40">
+        <header className="h-20 sm:h-24 bg-white/80 backdrop-blur-md border-b border-slate-200 flex items-center justify-between px-6 sm:px-10 sticky top-0 z-40">
           <div className="flex items-center gap-4">
             <button 
               onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-              className="p-3 rounded-2xl bg-slate-50 text-slate-400 hover:text-primary transition-all active:scale-90"
+              className="p-2.5 sm:p-3 rounded-2xl bg-slate-50 text-slate-400 hover:text-primary transition-all active:scale-90"
             >
-              {isSidebarOpen ? <X size={20} /> : <Menu size={20} />}
+              {isSidebarOpen ? <X size={18} /> : <Menu size={18} />}
             </button>
-            <div className="ml-4">
-               <h3 className="text-xs font-black text-slate-400 uppercase tracking-[0.2em]">Dashboard Status</h3>
+            <div className="hidden lg:block ml-4">
+               <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Dashboard Status</h3>
                <div className="flex items-center gap-2 mt-1">
                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-                 <span className="text-sm font-bold text-slate-900">Live Sync Active</span>
+                 <span className="text-xs font-bold text-slate-900">Live Sync Active</span>
                </div>
             </div>
           </div>
 
-          <div className="flex items-center gap-6">
-            <div className="hidden sm:flex items-center gap-6 bg-slate-50 px-6 py-3 rounded-2xl border border-slate-100">
+          <div className="flex items-center gap-3 sm:gap-6">
+            <div className="hidden md:flex items-center gap-6 bg-slate-50 px-6 py-3 rounded-2xl border border-slate-100">
                <button 
                 onClick={() => setPreviewMode('desktop')}
                 className={`flex flex-col items-center gap-0.5 transition-all ${previewMode === 'desktop' ? 'text-primary scale-110' : 'text-slate-400 opacity-40 hover:opacity-100'}`}
                >
-                  <Laptop size={16} />
-                  <span className="text-[10px] font-black uppercase">Desktop</span>
+                  <Laptop size={14} />
+                  <span className="text-[9px] font-black uppercase">Desktop</span>
                </button>
-               <div className="w-px h-6 bg-slate-200" />
+               <div className="w-px h-5 bg-slate-200" />
                <button 
                 onClick={() => setPreviewMode('mobile')}
                 className={`flex flex-col items-center gap-0.5 transition-all ${previewMode === 'mobile' ? 'text-primary scale-110' : 'text-slate-400 opacity-40 hover:opacity-100'}`}
                >
-                  <Smartphone size={16} />
-                  <span className="text-[10px] font-black uppercase">Mobile</span>
+                  <Smartphone size={14} />
+                  <span className="text-[9px] font-black uppercase">Mobile</span>
                </button>
             </div>
-            <a 
-              href="/" 
-              target="_blank" 
-              className="hidden lg:flex items-center gap-2 px-6 py-3 bg-white border-2 border-slate-100 rounded-2xl text-slate-600 font-black text-xs uppercase tracking-widest hover:border-primary/50 hover:text-primary transition-all shadow-sm"
-            >
-              View Website <ArrowUpRight size={14} />
-            </a>
-            <button 
-              onClick={() => {
-                localStorage.removeItem('isAdminAuthenticated');
-                window.location.reload();
-              }}
-              className="p-3.5 rounded-2xl bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white transition-all shadow-xl shadow-red-500/5 group flex items-center gap-2 px-6"
-            >
-              <span className="text-[10px] font-black uppercase tracking-widest hidden sm:block">Logout</span>
-              <X size={20} />
-            </button>
-            <button className="p-3.5 rounded-2xl bg-[#1A1A1A] text-white shadow-xl shadow-black/10 hover:scale-105 transition-all">
-              <Bell size={20} />
+
+            <div className="relative">
+              <button 
+                onClick={() => setIsProfileOpen(!isProfileOpen)}
+                className="flex items-center gap-3 pl-2 pr-4 py-2 rounded-2xl hover:bg-slate-50 transition-all border border-transparent hover:border-slate-100 group"
+              >
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-primary to-orange-600 p-[2px] shadow-lg shadow-primary/20 rotate-3 group-hover:rotate-0 transition-transform">
+                  <div className="w-full h-full bg-white rounded-[10px] overflow-hidden">
+                    <img 
+                      src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&h=100&fit=crop" 
+                      alt="Admin" 
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                </div>
+                <div className="hidden sm:block text-left">
+                  <p className="text-xs font-black text-slate-900 uppercase tracking-tighter">Admin User</p>
+                  <p className="text-[10px] font-bold text-slate-400">System Manager</p>
+                </div>
+                <Settings size={14} className={`text-slate-300 transition-transform duration-300 ${isProfileOpen ? 'rotate-90' : ''}`} />
+              </button>
+
+              <AnimatePresence>
+                {isProfileOpen && (
+                  <>
+                    <motion.div 
+                      key="backdrop"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      onClick={() => setIsProfileOpen(false)}
+                      className="fixed inset-0 z-10"
+                    />
+                    <motion.div 
+                      key="dropdown"
+                      initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                      animate={{ opacity: 1, scale: 1, y: 0 }}
+                      exit={{ opacity: 0, scale: 0.95, y: 10 }}
+                      className="absolute right-0 mt-3 w-64 bg-white rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-slate-100 p-4 z-20"
+                    >
+                      <div className="p-4 bg-slate-50 rounded-[1.5rem] mb-2">
+                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Signed in as</p>
+                        <p className="text-sm font-black text-slate-900 truncate">admin@weldoseld.com</p>
+                      </div>
+                      
+                      <div className="space-y-1">
+                        <button className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-slate-500 font-bold text-sm hover:bg-slate-50 transition-all">
+                          <Settings size={16} /> Account Settings
+                        </button>
+                        <a 
+                          href="/" 
+                          target="_blank" 
+                          className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-slate-500 font-bold text-sm hover:bg-slate-50 transition-all"
+                        >
+                          <Globe size={16} /> View Website
+                        </a>
+                      </div>
+
+                      <div className="mt-3 pt-3 border-t border-slate-100">
+                        <button 
+                          onClick={() => {
+                            localStorage.removeItem('isAdminAuthenticated');
+                            window.location.href = '/login';
+                          }}
+                          className="w-full flex items-center gap-3 px-4 py-4 rounded-xl bg-red-50 text-red-500 font-black text-xs uppercase tracking-widest hover:bg-red-500 hover:text-white transition-all group"
+                        >
+                          <LogOut size={16} /> Exit Dashboard
+                        </button>
+                      </div>
+                    </motion.div>
+                  </>
+                )}
+              </AnimatePresence>
+            </div>
+
+            <button className="p-3 sm:p-3.5 rounded-2xl bg-[#1A1A1A] text-white shadow-xl shadow-black/10 hover:scale-105 active:scale-95 transition-all">
+              <Bell size={18} />
             </button>
           </div>
         </header>

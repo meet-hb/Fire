@@ -42,19 +42,37 @@ function App() {
 function AppContent() {
   const location = useLocation();
   const isAdminPage = location.pathname.startsWith('/admin') || location.pathname.startsWith('/login');
-  const [navData, setNavData] = React.useState(content.navigation);
-  const [footerData, setFooterData] = React.useState(content.footer);
+  const [navData, setNavData] = React.useState(null);
+  const [footerData, setFooterData] = React.useState(null);
+  const [homeData, setHomeData] = React.useState(null);
   const [isLoading, setIsLoading] = React.useState(true);
 
   React.useEffect(() => {
     const fetchGlobalData = async () => {
       try {
-        const nav = await getContent('navigation');
-        const footer = await getContent('footer');
-        if (nav) setNavData(nav);
-        if (footer) setFooterData(footer);
+        // Fetch everything in parallel for speed
+        const [nav, footer, hero, services, about, features] = await Promise.all([
+          getContent('navigation'),
+          getContent('footer'),
+          getContent('hero'),
+          getContent('services'),
+          getContent('about'),
+          getContent('features')
+        ]);
+
+        setNavData(nav || content.navigation);
+        setFooterData(footer || content.footer);
+        setHomeData({
+          hero: hero || content.hero,
+          services: services || content.services,
+          about: about || content.about,
+          features: features || []
+        });
       } catch (err) {
         console.warn("Backend not ready yet, using static content.");
+        setNavData(content.navigation);
+        setFooterData(content.footer);
+        setHomeData(content);
       } finally {
         setIsLoading(false);
       }
@@ -78,10 +96,10 @@ function AppContent() {
       {!isAdminPage && <Navbar data={navData} />}
       <main>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/home-1" element={<HomeV1 />} />
-          <Route path="/home-2" element={<HomeV2 />} />
-          <Route path="/home-3" element={<HomeV3 />} />
+          <Route path="/" element={<Home data={homeData} />} />
+          <Route path="/home-1" element={<HomeV1 data={homeData} />} />
+          <Route path="/home-2" element={<HomeV2 data={homeData} />} />
+          <Route path="/home-3" element={<HomeV3 data={homeData} />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/brands" element={<BrandsPage />} />
           <Route path="/products" element={<ServicePage />} />

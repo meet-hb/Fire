@@ -136,7 +136,7 @@ app.get("/api/setup", async (req, res) => {
                 "tagline": "WELCOME TO WELDOSELD",
                 "title": "Protecting lives with trusted fire safety",
                 "description": "Premium fire protection solutions for industrial and residential assets across the globe.",
-                "image": "https://images.unsplash.com/photo-1599058917212-d750089bc07e?auto=format&fit=crop&q=80&w=1000"
+                "image": "https://images.unsplash.com/photo-1599058917212-d750089bc07e?auto=format&fit=crop&q=80&w=1000",
             }],
             ['expertise', {
                 "badge": "WHO WE ARE",
@@ -161,7 +161,7 @@ app.get("/api/setup", async (req, res) => {
                 "experience": "30+",
                 "image": "https://images.unsplash.com/photo-1596464716127-f2a82984de30?auto=format&fit=crop&q=80&w=800",
                 "image2": "https://images.unsplash.com/photo-1599059021644-80252390a424?auto=format&fit=crop&q=80&w=400",
-                "stats": [ { "label": "Projects Completed", "value": "150+" }, { "label": "Cities Covered", "value": "40+" }, { "label": "Awards Won", "value": "25+" } ]
+                "stats": [{ "label": "Projects Completed", "value": "150+" }, { "label": "Cities Covered", "value": "40+" }, { "label": "Awards Won", "value": "25+" }]
             }],
             ['services', [
                 { "title": "Fire Suppression", "description": "Automatic CO2 and clean agent systems for high-risk areas.", "icon": "Shield" },

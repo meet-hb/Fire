@@ -6,7 +6,7 @@ import {
   ChevronRight, ArrowUpRight, Flame, Shield, Activity, Settings, 
   Trash2, Edit3, Smartphone, Laptop, Tablet, Box, Upload
 } from 'lucide-react';
-import { getContent, updateContent } from '../api/contentService';
+import { getContent, updateContent, API_URL } from '../api/contentService';
 
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState('overview');
@@ -115,7 +115,6 @@ const AdminDashboard = () => {
     });
   };
 
-  const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:5000/api' : '/api';
 
   const handleImageUpload = async (e, callback) => {
     const file = e.target.files[0];
@@ -181,7 +180,13 @@ const AdminDashboard = () => {
         </nav>
 
         <div className="p-6 border-t border-white/5">
-          <button className="w-full flex items-center gap-3 px-6 py-4 rounded-2xl bg-white/5 text-red-400 font-bold hover:bg-white/10 transition-all text-sm group">
+          <button 
+            onClick={() => {
+              localStorage.removeItem('isAdminAuthenticated');
+              window.location.href = '/login';
+            }}
+            className="w-full flex items-center gap-3 px-6 py-4 rounded-2xl bg-white/5 text-red-400 font-bold hover:bg-white/10 transition-all text-sm group"
+          >
             <LogOut size={18} />
             Sign Out
           </button>

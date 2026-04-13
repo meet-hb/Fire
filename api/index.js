@@ -109,6 +109,20 @@ app.post('/api/upload', upload.single('image'), (req, res) => {
   res.json({ url: fileUrl });
 });
 
+app.get('/api/setup', async (req, res) => {
+  try {
+    const sqlPath = path.join(__dirname, '..', 'backend', 'setup.sql');
+    if (!fs.existsSync(sqlPath)) {
+        return res.status(404).json({ error: "setup.sql not found at " + sqlPath });
+    }
+    const sql = fs.readFileSync(sqlPath, 'utf8');
+    await db.query(sql);
+    res.send('<div style="text-align:center; padding:50px; font-family:sans-serif;"><h1>✅ Database Fully Seeded!</h1><p>All sections are now ready on Vercel.</p><a href="/" style="color:#F26522; font-weight:bold; text-decoration:none;">Go back to site</a></div>');
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // Root route
 app.get('/api', (req, res) => {
     res.send('<h1>Firegard API v1.0</h1>');

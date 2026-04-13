@@ -46,20 +46,22 @@ const Hero = ({ data }) => {
               </div>
             </motion.div>
 
-            <motion.div initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} className="relative flex justify-center lg:justify-end">
-              <img
-                src={data?.image || "https://images.unsplash.com/photo-1599058917212-d750089bc07e?auto=format&fit=crop&q=80&w=1000"}
-                alt="Firefighter"
-                className="relative z-10 w-full max-w-[500px] lg:max-w-[450px] object-contain drop-shadow-2xl"
-              />
+            <motion.div initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} className="relative flex justify-center lg:justify-end mt-12 lg:mt-0">
+              <div className="relative">
+                <img
+                  src={data?.image || "https://images.unsplash.com/photo-1599058917212-d750089bc07e?auto=format&fit=crop&q=80&w=1000"}
+                  alt="Firefighter"
+                  className="relative z-10 w-full max-w-[320px] sm:max-w-[450px] lg:max-w-[450px] object-contain drop-shadow-2xl mx-auto lg:mx-0"
+                />
 
-              <div className="absolute right-[-10px] bottom-[15%] bg-primary p-6 rounded-3xl z-20 flex items-center gap-4 shadow-2xl">
-                <div className="bg-white/20 p-3 rounded-2xl">
-                  <Users size={24} className="text-white" />
-                </div>
-                <div>
-                  <p className="text-white font-black text-2xl leading-none">3,500+</p>
-                  <p className="text-white/80 text-xs font-bold uppercase tracking-widest">Satisfied Clients</p>
+                <div className="absolute -right-4 sm:-right-10 bottom-[10%] sm:bottom-[15%] bg-primary p-4 sm:p-6 rounded-2xl sm:rounded-3xl z-20 flex items-center gap-3 sm:gap-4 shadow-2xl scale-90 sm:scale-100">
+                  <div className="bg-white/20 p-2 sm:p-3 rounded-xl">
+                    <Users size={20} className="text-white sm:w-6 sm:h-6" />
+                  </div>
+                  <div>
+                    <p className="text-white font-black text-xl sm:text-2xl leading-none">3,500+</p>
+                    <p className="text-white/80 text-[10px] sm:text-xs font-bold uppercase tracking-widest">Satisfied Clients</p>
+                  </div>
                 </div>
               </div>
             </motion.div>

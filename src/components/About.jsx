@@ -37,12 +37,12 @@ const About = ({ data }) => {
                 initial={{ opacity: 0, scale: 0.5 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.3, duration: 0.5 }}
-                className="absolute top-10 left-[-30px] sm:left-[-50px] bg-primary p-6 sm:p-8 rounded-3xl z-20 shadow-2xl flex flex-col items-center gap-2 max-w-[150px] sm:max-w-[180px]"
+                className="absolute top-6 left-[-15px] sm:left-[-50px] bg-primary p-4 sm:p-8 rounded-2xl sm:rounded-3xl z-20 shadow-2xl flex flex-col items-center gap-1 sm:gap-2 max-w-[120px] sm:max-w-[180px] scale-90 sm:scale-100"
               >
                 <div className="bg-white/20 p-2 rounded-xl text-white">
-                  <Award size={32} />
+                  <Award size={24} className="sm:w-8 sm:h-8" />
                 </div>
-                <p className="text-white font-black text-center text-sm sm:text-lg leading-tight uppercase tracking-wider">
+                <p className="text-white font-black text-center text-[10px] sm:text-lg leading-tight uppercase tracking-wider">
                   30 + years of experience
                 </p>
               </motion.div>
@@ -52,7 +52,7 @@ const About = ({ data }) => {
                 initial={{ opacity: 0, scale: 0.8, y: 50 }}
                 whileInView={{ opacity: 1, scale: 1, y: 0 }}
                 transition={{ delay: 0.5, duration: 0.8 }}
-                className="absolute bottom-[-40px] right-[-20px] sm:right-[-40px] w-[180px] sm:w-[280px] z-30 rounded-[2.5rem] overflow-hidden border-[10px] border-[#FEF3E2] shadow-2xl"
+                className="absolute bottom-[-20px] sm:bottom-[-40px] right-[-10px] sm:right-[-40px] w-[140px] sm:w-[280px] z-30 rounded-3xl sm:rounded-[2.5rem] overflow-hidden border-4 sm:border-[10px] border-[#FEF3E2] shadow-2xl"
               >
                 <img
                   src={data?.image2 || "https://images.unsplash.com/photo-1599059021644-80252390a424?auto=format&fit=crop&q=80&w=400"}

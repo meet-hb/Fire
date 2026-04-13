@@ -15,7 +15,7 @@ const AboutV3 = ({ data }) => {
           />
           {/* Statistical overlay card */}
           <div className="absolute top-10 left-10 right-10 flex gap-4">
-             {data?.stats?.slice(0, 2).map((stat, i) => (
+             {Array.isArray(data?.stats) && data.stats.slice(0, 2).map((stat, i) => (
                <div key={i} className="flex-1 bg-primary p-4 rounded-3xl border border-white/20 shadow-xl">
                   <p className="text-white text-3xl font-black italic">{stat.value}</p>
                   <p className="text-white/60 text-[8px] font-black uppercase tracking-widest">{stat.label}</p>

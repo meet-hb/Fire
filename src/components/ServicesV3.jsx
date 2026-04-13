@@ -24,7 +24,7 @@ const ServicesV3 = ({ data }) => {
         </div>
 
         <div className="lg:w-2/3 flex flex-col pt-12">
-          {data.map((service, i) => (
+          {Array.isArray(data) && data.map((service, i) => (
             <motion.div 
               key={i}
               initial={{ opacity: 0, x: 20 }}

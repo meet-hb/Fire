@@ -20,7 +20,7 @@ const FeaturesV2 = ({ data }) => {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
-          {data.map((feature, i) => (
+          {Array.isArray(data) && data.map((feature, i) => (
             <motion.div 
               key={i}
               whileHover={{ y: -15 }}

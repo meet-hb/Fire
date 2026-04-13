@@ -56,15 +56,16 @@ const AdminDashboard = () => {
 
   const handleChange = (field, value, path = []) => {
     setData(prev => {
-      const newData = { ...prev };
+      const newData = prev ? { ...prev } : {};
       let current = newData;
       for (let i = 0; i < path.length; i++) {
-        current = current[path[i]];
+        const p = path[i];
+        if (!current[p]) current[p] = {};
+        current = current[p];
       }
       current[field] = value;
       return newData;
     });
-  };
 
   const handleArrayUpdate = (index, field, value, arrayField = null) => {
     setData(prev => {
@@ -78,7 +79,7 @@ const AdminDashboard = () => {
         arr[index][field] = value;
         newData[arrayField] = arr;
         return newData;
-      } else if (Array.isArray(prev.items)) {
+      } else if (Array.isArray(prev?.items)) {
          const arr = [...prev.items];
          arr[index][field] = value;
          newData.items = arr;
@@ -349,7 +350,7 @@ const AdminDashboard = () => {
                           <InputField label="Years of Experience" value={data.experience} onChange={v => handleChange('experience', v)} />
                           <div className="space-y-6">
                              <p className="text-xs font-black uppercase text-slate-400 tracking-widest">Key Statistics</p>
-                             {data.stats?.map((stat, i) => (
+                             {Array.isArray(data.stats) && data.stats.map((stat, i) => (
                                 <div key={i} className="grid grid-cols-2 gap-6 bg-slate-50 p-6 rounded-3xl border border-slate-100">
                                    <InputField label="Label" value={stat.label} onChange={v => handleArrayUpdate(i, 'label', v, 'stats')} />
                                    <InputField label="Value" value={stat.value} onChange={v => handleArrayUpdate(i, 'value', v, 'stats')} />
@@ -366,7 +367,7 @@ const AdminDashboard = () => {
                      {(Array.isArray(data) ? data : (Array.isArray(data?.items) ? data.items : [])).map((item, i) => (
                         <SectionCard key={i} title={`${activeTab.slice(0, -1)} #${i + 1}`}>
                            <div className="space-y-6">
-                               {Object.keys(item).map(key => (
+                               {item && typeof item === 'object' && Object.keys(item).map(key => (
                                  (key.toLowerCase().includes('image') || key.toLowerCase().includes('icon')) ? (
                                    <ImageUploadField 
                                       key={key} 
@@ -462,7 +463,7 @@ const AdminDashboard = () => {
                       <div className="space-y-6">
                         <p className="text-xs font-black uppercase text-slate-400 tracking-widest">Footer Service Links</p>
                         <div className="grid md:grid-cols-2 gap-4">
-                          {data.links?.services?.map((link, i) => (
+                          {Array.isArray(data.links?.services) && data.links.services.map((link, i) => (
                             <div key={i} className="flex gap-4 items-center">
                               <div className="flex-1">
                                 <InputField value={link} onChange={v => {

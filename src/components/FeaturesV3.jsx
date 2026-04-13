@@ -30,7 +30,7 @@ const FeaturesV3 = ({ data }) => {
 
         {/* Right content column (masonry list) */}
         <div className="lg:w-2/3 grid md:grid-cols-2 gap-8">
-          {data.map((feature, i) => (
+          {Array.isArray(data) && data.map((feature, i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, y: 20 }}

@@ -31,7 +31,7 @@ const GalleryPage = () => {
 
       <section className="px-4 sm:px-6 lg:px-10 max-w-[1400px] mx-auto py-20">
         <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
-          {images.map((img, i) => (
+          {Array.isArray(images) && images.map((img, i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, scale: 0.95 }}

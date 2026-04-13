@@ -37,7 +37,7 @@ const AboutV2 = ({ data }) => {
             </p>
 
             <div className="grid grid-cols-1 gap-8">
-              {data?.stats?.map((stat, i) => (
+              {Array.isArray(data?.stats) && data.stats.map((stat, i) => (
                 <div key={i} className="flex items-center gap-8 bg-white/40 p-10 rounded-[2.5rem] border border-white/50 backdrop-blur-sm group hover:bg-primary transition-all duration-500">
                   <div className="text-primary text-5xl font-black italic group-hover:text-white transition-colors">{stat.value}</div>
                   <div className="space-y-1">

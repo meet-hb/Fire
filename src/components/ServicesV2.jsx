@@ -19,7 +19,7 @@ const ServicesV2 = ({ data }) => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {data.map((service, i) => (
+          {Array.isArray(data) && data.map((service, i) => (
             <motion.div 
               key={i}
               whileHover={{ y: -10 }}

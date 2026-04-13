@@ -25,7 +25,7 @@ const CertificationsPage = () => {
 
       <section className="px-4 sm:px-6 lg:px-10 max-w-[1400px] mx-auto py-20">
         <div className="grid md:grid-cols-2 gap-8">
-          {certs.map((cert, i) => (
+          {Array.isArray(certs) && certs.map((cert, i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, x: i % 2 === 0 ? -20 : 20 }}

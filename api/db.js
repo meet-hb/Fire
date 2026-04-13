@@ -1,11 +1,18 @@
-import pkg from "pg";
-const { Pool } = pkg;
+// db.js
+import pg from 'pg';
+const { Pool } = pg;
 
-const pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: {
-        rejectUnauthorized: false,
-    },
-});
+let pool;
+
+if (!global.pool) {
+    global.pool = new Pool({
+        connectionString: process.env.DATABASE_URL,
+        ssl: {
+            rejectUnauthorized: false,
+        },
+    });
+}
+
+pool = global.pool;
 
 export default pool;

@@ -23,7 +23,7 @@ const Team = ({ data }) => {
         </div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10">
-          {data.members.map((member, i) => (
+          {Array.isArray(data?.members) && data.members.map((member, i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, y: 30 }}

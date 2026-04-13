@@ -70,7 +70,7 @@ const Navbar = ({ data }) => {
 
           {/* Desktop Links (Large Density) */}
           <div className="hidden xl:flex items-center space-x-6 2xl:space-x-8">
-            {data?.links?.map((link) => (
+            {Array.isArray(data?.links) && data.links.map((link) => (
               <div key={link} className="relative group">
                 {link === 'Home' ? (
                   <div
@@ -213,7 +213,7 @@ const Navbar = ({ data }) => {
               </div>
 
               <div className="flex-1 overflow-y-auto p-8 space-y-4">
-                {data.links.map((link) => (
+                {Array.isArray(data?.links) && data.links.map((link) => (
                   <div key={link}>
                     {link === 'Products' ? (
                       <div className="space-y-2">

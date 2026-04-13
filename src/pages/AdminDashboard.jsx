@@ -99,13 +99,15 @@ const AdminDashboard = () => {
 
     setData(prev => {
       if (Array.isArray(prev)) return [...prev, newItem];
-      return { ...prev, items: [...(prev.items || []), newItem] };
+      const items = Array.isArray(prev?.items) ? prev.items : [];
+      return { ...prev, items: [...items, newItem] };
     });
   };
 
   const handleRemoveItem = (index) => {
     setData(prev => {
       if (Array.isArray(prev)) return prev.filter((_, i) => i !== index);
+      if (!Array.isArray(prev?.items)) return prev;
       return { ...prev, items: prev.items.filter((_, i) => i !== index) };
     });
   };
@@ -361,7 +363,7 @@ const AdminDashboard = () => {
                 {/* Array based sections (Services, Features, Brands, Videos, Gallery, Certs, Clients) */}
                 {['services', 'features', 'brands', 'videos', 'certs', 'clients'].includes(activeTab) && data && (
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                     {(Array.isArray(data) ? data : data.items || []).map((item, i) => (
+                     {(Array.isArray(data) ? data : (Array.isArray(data?.items) ? data.items : [])).map((item, i) => (
                         <SectionCard key={i} title={`${activeTab.slice(0, -1)} #${i + 1}`}>
                            <div className="space-y-6">
                                {Object.keys(item).map(key => (
@@ -405,7 +407,7 @@ const AdminDashboard = () => {
                   <SectionCard title="Image Library">
                      <p className="text-sm text-slate-400 font-medium mb-10 -mt-6 italic">Manage all portfolio and gallery visuals.</p>
                      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
-                        {data.map((url, i) => (
+                        {Array.isArray(data) && data.map((url, i) => (
                            <div key={i} className="relative group rounded-3xl overflow-hidden aspect-square border-2 border-slate-100 shadow-sm transition-all hover:shadow-xl">
                               <img src={url} alt="Gallery" className="w-full h-full object-cover" />
                               <div className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all">

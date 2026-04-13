@@ -38,7 +38,7 @@ const FAQ = ({ data }) => {
           </motion.div>
 
           <div className="space-y-4 sm:space-y-6 mt-8 lg:mt-0">
-            {data.items.map((item, i) => (
+            {Array.isArray(data?.items) && data.items.map((item, i) => (
               <motion.div 
                 key={i} 
                 initial={{ opacity: 0, y: 20 }}

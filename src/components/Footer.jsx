@@ -48,7 +48,7 @@ const Footer = ({ data }) => {
               Our Services
             </h4>
             <ul className="space-y-4 lg:space-y-5">
-              {data.links?.services?.map((link) => (
+              {Array.isArray(data?.links?.services) && data.links.services.map((link) => (
                 <li key={link}>
                   <a href="#" className="text-white/40 hover:text-primary transition-all flex items-center justify-center sm:justify-start gap-2 group text-sm font-bold">
                     <span className="hidden sm:block w-0 h-[1px] bg-primary group-hover:w-4 transition-all"></span>

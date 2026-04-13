@@ -20,7 +20,7 @@ const Footer = ({ data }) => {
                       <Flame className="text-white w-5 h-5 lg:w-6 lg:h-6" />
                     </div>
                     <span className="text-2xl lg:text-3xl font-black tracking-tighter uppercase italic">
-                      {data?.logo || 'Firegard'}
+                      {data?.logo || 'WELDOSELD'}
                     </span>
                   </>
                 )}

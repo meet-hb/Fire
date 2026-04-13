@@ -263,7 +263,7 @@ const AdminDashboard = () => {
             <div className="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
               <div>
                 <h1 className="text-4xl lg:text-5xl font-black text-slate-900 tracking-tight capitalize">{activeTab.replace(/([A-Z])/g, ' $1')} Module</h1>
-                <p className="text-slate-500 font-medium text-lg mt-2 font-serif italic">Editing live content for Firegard infrastructure.</p>
+                <p className="text-slate-500 font-medium text-lg mt-2 font-serif italic">Editing live content for WELDOSELD infrastructure.</p>
               </div>
               {activeTab !== 'overview' && (
                 <div className="flex gap-4">

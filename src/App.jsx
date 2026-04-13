@@ -86,7 +86,7 @@ function AppContent() {
         <div className="bg-primary p-4 rounded-3xl animate-bounce mb-6">
            <Flame className="text-white w-10 h-10" />
         </div>
-        <p className="text-white/40 font-black uppercase tracking-[0.3em] text-[10px] animate-pulse">Initializing Firegard System</p>
+        <p className="text-white/40 font-black uppercase tracking-[0.3em] text-[10px] animate-pulse">Initializing WELDOSELD System</p>
       </div>
     );
   }

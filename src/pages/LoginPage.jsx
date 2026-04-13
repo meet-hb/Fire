@@ -17,7 +17,7 @@ const LoginPage = () => {
 
     // Hardcoded credentials for this version
     setTimeout(() => {
-      if (email === 'admin@firegard.com' && password === 'admin123') {
+      if (email === 'admin@weldoseld.com' && password === 'admin123') {
         localStorage.setItem('isAdminAuthenticated', 'true');
         navigate('/admin');
       } else {
@@ -43,7 +43,7 @@ const LoginPage = () => {
             <Flame className="text-white w-8 h-8" />
           </div>
           <h1 className="text-4xl font-black text-white tracking-tighter uppercase italic mb-2">Admin Portal</h1>
-          <p className="text-white/40 font-bold uppercase tracking-[0.2em] text-[10px]">Secure Access for Firegard Systems</p>
+          <p className="text-white/40 font-bold uppercase tracking-[0.2em] text-[10px]">Secure Access for WELDOSELD Systems</p>
         </div>
 
         <div className="bg-white/5 backdrop-blur-2xl border border-white/10 p-8 sm:p-10 rounded-[3rem] shadow-2xl shadow-black/50">
@@ -56,7 +56,7 @@ const LoginPage = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 pl-12 pr-6 text-white focus:outline-none focus:border-primary transition-all placeholder:text-white/10"
-                  placeholder="admin@firegard.com"
+                  placeholder="admin@weldoseld.com"
                   required
                 />
                 <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-white/20" size={18} />

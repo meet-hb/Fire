@@ -27,7 +27,7 @@ const About = ({ data }) => {
               >
                 <img
                   src={data?.image || "https://images.unsplash.com/photo-1596464716127-f2a82984de30?auto=format&fit=crop&q=80&w=800"}
-                  alt="About Firegard"
+                  alt="About WELDOSELD"
                   className="w-full h-auto object-cover lg:max-w-[550px]"
                 />
               </motion.div>

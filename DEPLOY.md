@@ -1,6 +1,6 @@
-# 🔥 Firegard AWS Deployment Guide
+# 🔥 WELDOSELD AWS Deployment Guide
 
-This document outlines the steps to deploy the Firegard project to an AWS EC2 instance (Ubuntu 22.04 LTS recommended).
+This document outlines the steps to deploy the WELDOSELD project to an AWS EC2 instance (Ubuntu 22.04 LTS recommended).
 
 ## 1. Initial Server Setup
 Connect to your instance and install dependencies:
@@ -14,9 +14,9 @@ sudo npm install -g pm2
 ```bash
 sudo -u postgres psql
 # Inside psql:
-CREATE DATABASE firegard_db;
+CREATE DATABASE weldoseld_db;
 CREATE USER fireuser WITH PASSWORD 'your_secure_password';
-GRANT ALL PRIVILEGES ON DATABASE firegard_db TO fireuser;
+GRANT ALL PRIVILEGES ON DATABASE weldoseld_db TO fireuser;
 \q
 ```
 
@@ -31,7 +31,7 @@ npm install
 Create a `.env` file in the `backend/` directory:
 ```env
 PORT=5000
-DATABASE_URL=postgres://fireuser:your_secure_password@localhost:5432/firegard_db
+DATABASE_URL=postgres://fireuser:your_secure_password@localhost:5432/weldoseld_db
 ```
 
 ## 4. Launch Backend (PM2)

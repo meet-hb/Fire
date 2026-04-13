@@ -63,7 +63,7 @@ const Navbar = ({ data }) => {
                   <Flame className="text-white w-6 h-6" />
                 </div>
                 <span className="text-2xl font-black text-[#2D1E16] tracking-tighter uppercase italic">
-                  {data?.logo || 'Firegard'}<span className="text-primary not-italic">.</span>
+                   {data?.logo || 'WELDOSELD'}<span className="text-primary not-italic">.</span>
                 </span>
               </>
             )}

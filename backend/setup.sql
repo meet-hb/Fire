@@ -9,16 +9,16 @@ CREATE TABLE IF NOT EXISTS site_content (
 -- Seed with ALL sections
 INSERT INTO site_content (section_name, content) VALUES
 ('navigation', '{
-    "logo": "Firegard",
+    "logo": "WELDOSELD",
     "links": ["Home", "About", "Brands", "Products", "Videos", "Gallery", "Certifications", "Clients", "Contact"],
     "topBar": {
         "phone": "+61 8 0000 000", 
-        "email": "info@firegard.com", 
+        "email": "info@weldoseld.com", 
         "address": "123 Safety Way, NY"
     }
 }'),
 ('hero', '{
-    "tagline": "WELCOME TO FIREGARD",
+    "tagline": "WELCOME TO WELDOSELD",
     "title": "Protecting lives with trusted fire safety",
     "description": "Premium fire protection solutions for industrial and residential assets across the globe.",
     "image": "https://images.unsplash.com/photo-1599058917212-d750089bc07e?auto=format&fit=crop&q=80&w=1000"
@@ -43,7 +43,7 @@ INSERT INTO site_content (section_name, content) VALUES
     {"title": "Safety Audits", "description": "Professional consultancy and thorough asset assessment.", "icon": "Search"}
 ]'),
 ('footer', '{
-    "logo": "Firegard",
+    "logo": "WELDOSELD",
     "description": "Premium fire protection solutions for industrial and residential assets. Engineered for ultimate protection.",
     "links": {
         "services": ["Fire Alarms", "Fire Suppression", "Fire Hydrants", "Safety Audits"]
@@ -51,7 +51,7 @@ INSERT INTO site_content (section_name, content) VALUES
     "contact": {
         "address": "123 Safety Way, Industrial Zone, New York",
         "phone": "+61 8 0000 000",
-        "email": "info@firegard.com"
+        "email": "info@weldoseld.com"
     }
 }'),
 ('gallery', '[

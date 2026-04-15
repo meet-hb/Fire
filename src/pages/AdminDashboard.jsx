@@ -7,7 +7,7 @@ import {
   Trash2, Edit3, Smartphone, Laptop, Tablet, Box, Upload
 } from 'lucide-react';
 import { getContent, updateContent, API_URL } from '../api/contentService';
-import { defaultAdminProfile, normalizeAdminProfile } from '../data/adminProfile';
+import { ADMIN_PROFILE_STORAGE_KEY, defaultAdminProfile, normalizeAdminProfile } from '../data/adminProfile';
 
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState('overview');
@@ -49,8 +49,22 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     const fetchAdminProfile = async () => {
+      const cachedProfile = localStorage.getItem(ADMIN_PROFILE_STORAGE_KEY);
+      let parsedCachedProfile = null;
+
+      if (cachedProfile) {
+        try {
+          parsedCachedProfile = JSON.parse(cachedProfile);
+          setAdminProfile(normalizeAdminProfile(parsedCachedProfile));
+        } catch (error) {
+          console.warn('Failed to parse cached admin profile:', error);
+        }
+      }
+
       const profile = await getContent('adminProfile');
-      setAdminProfile(normalizeAdminProfile(profile));
+      const normalizedProfile = normalizeAdminProfile(profile || parsedCachedProfile);
+      setAdminProfile(normalizedProfile);
+      localStorage.setItem(ADMIN_PROFILE_STORAGE_KEY, JSON.stringify(normalizedProfile));
     };
 
     fetchAdminProfile();
@@ -281,8 +295,8 @@ const AdminDashboard = () => {
                 <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-primary to-orange-600 p-[2px] shadow-lg shadow-primary/20 rotate-3 group-hover:rotate-0 transition-transform">
                   <div className="w-full h-full bg-white rounded-[10px] overflow-hidden">
                     <img 
-                      src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&h=100&fit=crop" 
-                      alt="Admin" 
+                      src={adminProfile.avatar} 
+                      alt={adminProfile.fullName} 
                       className="w-full h-full object-cover"
                     />
                   </div>

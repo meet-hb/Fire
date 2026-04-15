@@ -10,6 +10,8 @@ export const defaultAdminProfile = {
   company: 'WELDOSELD',
 };
 
+export const ADMIN_PROFILE_STORAGE_KEY = 'adminProfile';
+
 export const normalizeAdminProfile = (profile) => ({
   ...defaultAdminProfile,
   ...(profile || {}),

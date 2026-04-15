@@ -1,11 +1,10 @@
 import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
-import pkg from "pg";
-const { Pool } = pkg;
 import multer from "multer";
 import fs from "fs";
 import dotenv from "dotenv";
+import { getPool, hasDatabaseConfig } from "./db.js";
 
 dotenv.config();
 
@@ -17,17 +16,14 @@ app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 
 // ✅ FIXED DB CONNECTION (Supabase / Neon / Vercel Postgres)
-const pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: {
-        rejectUnauthorized: false,
-    },
-});
+const pool = getPool();
+const isMissingTableError = (error) => error?.code === "42P01";
+const isMissingColumnError = (error) => error?.code === "42703";
 
 // Test DB connection
 (async () => {
     try {
-        if (!process.env.DATABASE_URL) {
+        if (!hasDatabaseConfig() || !pool) {
             console.warn("⚠️ DATABASE_URL not set. Skipping DB connection test.");
             return;
         }
@@ -42,13 +38,17 @@ const pool = new Pool({
 app.get("/api/test", (req, res) => {
     res.json({
         message: "API Working 🚀",
-        has_db: !!process.env.DATABASE_URL,
+        has_db: hasDatabaseConfig(),
     });
 });
 
 // GET content
 app.get("/api/content/:section", async (req, res) => {
     try {
+        if (!pool) {
+            return res.json(null);
+        }
+
         const { section } = req.params;
         const result = await pool.query(
             "SELECT content FROM site_content WHERE section_name = $1",
@@ -61,13 +61,21 @@ app.get("/api/content/:section", async (req, res) => {
             res.json(null);
         }
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        if (isMissingTableError(err) || isMissingColumnError(err)) {
+            return res.json(null);
+        }
+        console.error("Content fetch error:", err.message);
+        res.status(500).json({ error: "Failed to fetch content." });
     }
 });
 
 // SAVE content
 app.post("/api/content/:section", async (req, res) => {
     try {
+        if (!pool) {
+            return res.status(503).json({ error: "Database is not configured." });
+        }
+
         const { section } = req.params;
         const { content } = req.body;
 
@@ -81,7 +89,8 @@ app.post("/api/content/:section", async (req, res) => {
 
         res.json({ success: true });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        console.error("Content save error:", err.message);
+        res.status(500).json({ error: "Failed to save content." });
     }
 });
 
@@ -110,7 +119,7 @@ app.use("/uploads", express.static(uploadDir));
 // ✅ FULL SETUP ROUTE (Hardcoded for stability on Vercel)
 app.get("/api/setup", async (req, res) => {
     try {
-        if (!process.env.DATABASE_URL) {
+        if (!hasDatabaseConfig() || !pool) {
             throw new Error("DATABASE_URL is missing in environment variables.");
         }
 

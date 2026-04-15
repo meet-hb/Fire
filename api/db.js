@@ -1,18 +1,26 @@
-// db.js
 import pg from 'pg';
+
 const { Pool } = pg;
 
-let pool;
+let poolInstance = null;
 
-if (!global.pool) {
-    global.pool = new Pool({
-        connectionString: process.env.DATABASE_URL,
-        ssl: {
-            rejectUnauthorized: false,
-        },
+export const hasDatabaseConfig = () => Boolean(process.env.DATABASE_URL);
+
+export const getPool = () => {
+  if (!hasDatabaseConfig()) {
+    return null;
+  }
+
+  if (!poolInstance) {
+    poolInstance = new Pool({
+      connectionString: process.env.DATABASE_URL,
+      ssl: {
+        rejectUnauthorized: false,
+      },
     });
-}
+  }
 
-pool = global.pool;
+  return poolInstance;
+};
 
-export default pool;
+export default getPool;

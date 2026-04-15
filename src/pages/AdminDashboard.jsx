@@ -49,12 +49,12 @@ const AdminDashboard = () => {
   }, [activeTab]);
 
   useEffect(() => {
-    const fetchAdminProfile = async () => {
+    const loadAdminProfile = async () => {
       const profile = await fetchAdminProfile();
       setAdminProfile(profile);
     };
 
-    fetchAdminProfile();
+    loadAdminProfile();
   }, []);
 
   const handleUpdate = async () => {

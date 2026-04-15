@@ -7,7 +7,7 @@ import {
   Trash2, Edit3, Smartphone, Laptop, Tablet, Box, Upload, CheckCheck, AlertTriangle
 } from 'lucide-react';
 import { getContent, updateContent, API_URL } from '../api/contentService';
-import { fetchAdminProfile } from '../api/adminProfileService';
+import { fetchAdminProfile, getCachedAdminProfile } from '../api/adminProfileService';
 import { defaultAdminProfile } from '../data/adminProfile';
 
 const AdminDashboard = () => {
@@ -20,7 +20,7 @@ const AdminDashboard = () => {
   const [previewMode, setPreviewMode] = useState('desktop');
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
-  const [adminProfile, setAdminProfile] = useState(defaultAdminProfile);
+  const [adminProfile, setAdminProfile] = useState(() => getCachedAdminProfile() || defaultAdminProfile);
   const [notifications, setNotifications] = useState([
     {
       id: 1,

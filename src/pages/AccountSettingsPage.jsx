@@ -2,11 +2,11 @@ import React from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Save, Upload, UserRound, Mail, Phone, Globe, MapPin, Briefcase, Building2, FileText, Activity } from 'lucide-react';
-import { fetchAdminProfile, saveAdminProfile } from '../api/adminProfileService';
+import { fetchAdminProfile, getCachedAdminProfile, saveAdminProfile } from '../api/adminProfileService';
 import { defaultAdminProfile } from '../data/adminProfile';
 
 const AccountSettingsPage = () => {
-  const [formData, setFormData] = React.useState(defaultAdminProfile);
+  const [formData, setFormData] = React.useState(() => getCachedAdminProfile() || defaultAdminProfile);
   const [loading, setLoading] = React.useState(true);
   const [saving, setSaving] = React.useState(false);
   const [message, setMessage] = React.useState('');

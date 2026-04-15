@@ -7,7 +7,8 @@ import {
   Trash2, Edit3, Smartphone, Laptop, Tablet, Box, Upload
 } from 'lucide-react';
 import { getContent, updateContent, API_URL } from '../api/contentService';
-import { ADMIN_PROFILE_STORAGE_KEY, defaultAdminProfile, normalizeAdminProfile } from '../data/adminProfile';
+import { fetchAdminProfile } from '../api/adminProfileService';
+import { defaultAdminProfile } from '../data/adminProfile';
 
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState('overview');
@@ -49,22 +50,8 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     const fetchAdminProfile = async () => {
-      const cachedProfile = localStorage.getItem(ADMIN_PROFILE_STORAGE_KEY);
-      let parsedCachedProfile = null;
-
-      if (cachedProfile) {
-        try {
-          parsedCachedProfile = JSON.parse(cachedProfile);
-          setAdminProfile(normalizeAdminProfile(parsedCachedProfile));
-        } catch (error) {
-          console.warn('Failed to parse cached admin profile:', error);
-        }
-      }
-
-      const profile = await getContent('adminProfile');
-      const normalizedProfile = normalizeAdminProfile(profile || parsedCachedProfile);
-      setAdminProfile(normalizedProfile);
-      localStorage.setItem(ADMIN_PROFILE_STORAGE_KEY, JSON.stringify(normalizedProfile));
+      const profile = await fetchAdminProfile();
+      setAdminProfile(profile);
     };
 
     fetchAdminProfile();

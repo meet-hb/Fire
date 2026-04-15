@@ -1,16 +1,93 @@
-# React + Vite
+# WELDOSELD Client Delivery
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+WELDOSELD is a React + Vite website with an admin dashboard for updating live content and profile settings.
 
-Currently, two official plugins are available:
+## Active Production Structure
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+These are the folders that matter for deployment and client handoff:
 
-## React Compiler
+```text
+src/        Frontend app, pages, components, shared data
+api/        Production API used by Vercel
+public/     Static public assets
+dist/       Generated build output
+vercel.json Vercel routing for frontend + API
+```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Legacy / Reference Folders
 
-## Expanding the ESLint configuration
+These folders are present in the repo but are not the primary production path:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```text
+server/   Local/older backend variant
+backend/  Another backend variant with local uploads
+```
+
+Keep them only if you still need them for reference. For client delivery, the live deployment path is `src/ + api/ + public/`.
+
+## Key Frontend Areas
+
+```text
+src/pages/
+  AdminDashboard.jsx
+  AccountSettingsPage.jsx
+  LoginPage.jsx
+
+src/api/
+  contentService.js
+  adminProfileService.js
+
+src/data/
+  content.js
+  adminProfile.js
+```
+
+## Setup
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Start development server:
+
+```bash
+npm run dev
+```
+
+Create production build:
+
+```bash
+npm run build
+```
+
+## Environment
+
+The API expects:
+
+```text
+DATABASE_URL=
+```
+
+For Vercel, set `DATABASE_URL` in the project environment variables.
+
+## Content Management
+
+The admin dashboard updates content through:
+
+```text
+/api/content/:section
+```
+
+Profile/account settings are stored in:
+
+```text
+adminProfile
+```
+
+## Notes For Client Delivery
+
+- The admin profile logic is centralized in `src/api/adminProfileService.js`.
+- The account settings page and dashboard now share the same saved profile data.
+- If you want an even cleaner final delivery, the unused `server/` and `backend/` folders can be archived outside this repo after confirming they are no longer needed.

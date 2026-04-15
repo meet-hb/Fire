@@ -2,8 +2,8 @@ import React from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Save, Upload, UserRound, Mail, Phone, Globe, MapPin, Briefcase, Building2, FileText, Activity } from 'lucide-react';
-import { getContent, updateContent } from '../api/contentService';
-import { ADMIN_PROFILE_STORAGE_KEY, defaultAdminProfile, normalizeAdminProfile } from '../data/adminProfile';
+import { fetchAdminProfile, saveAdminProfile } from '../api/adminProfileService';
+import { defaultAdminProfile } from '../data/adminProfile';
 
 const AccountSettingsPage = () => {
   const [formData, setFormData] = React.useState(defaultAdminProfile);
@@ -15,21 +15,8 @@ const AccountSettingsPage = () => {
   React.useEffect(() => {
     const fetchProfile = async () => {
       setLoading(true);
-      let parsedCachedProfile = null;
-      const cachedProfile = localStorage.getItem(ADMIN_PROFILE_STORAGE_KEY);
-      if (cachedProfile) {
-        try {
-          parsedCachedProfile = JSON.parse(cachedProfile);
-          setFormData(normalizeAdminProfile(parsedCachedProfile));
-        } catch (error) {
-          console.warn('Failed to parse cached admin profile:', error);
-        }
-      }
-
-      const profile = await getContent('adminProfile');
-      const normalizedProfile = normalizeAdminProfile(profile || parsedCachedProfile);
-      setFormData(normalizedProfile);
-      localStorage.setItem(ADMIN_PROFILE_STORAGE_KEY, JSON.stringify(normalizedProfile));
+      const profile = await fetchAdminProfile();
+      setFormData(profile);
       setLoading(false);
     };
 
@@ -46,11 +33,10 @@ const AccountSettingsPage = () => {
 
   const handleSave = async () => {
     setSaving(true);
-    const result = await updateContent('adminProfile', formData);
+    const result = await saveAdminProfile(formData);
     setSaving(false);
 
     if (result.success) {
-      localStorage.setItem(ADMIN_PROFILE_STORAGE_KEY, JSON.stringify(formData));
       setMessage('Account settings updated successfully.');
       setIsEditing(false);
       setTimeout(() => setMessage(''), 3000);
@@ -67,20 +53,17 @@ const AccountSettingsPage = () => {
     try {
       setSaving(true);
       const imageDataUrl = await fileToDataUrl(file);
-      setFormData((prev) => ({ ...prev, avatar: imageDataUrl }));
-      const result = await updateContent('adminProfile', {
+      const nextProfile = {
         ...formData,
         avatar: imageDataUrl,
-      });
+      };
+      setFormData(nextProfile);
+      const result = await saveAdminProfile(nextProfile);
 
       if (!result.success) {
         throw new Error(result.error || 'Profile image update failed.');
       }
 
-      localStorage.setItem(ADMIN_PROFILE_STORAGE_KEY, JSON.stringify({
-        ...formData,
-        avatar: imageDataUrl,
-      }));
       setMessage('Profile image updated successfully.');
       setTimeout(() => setMessage(''), 3000);
     } catch (error) {

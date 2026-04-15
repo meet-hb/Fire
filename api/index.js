@@ -4,7 +4,6 @@ import bodyParser from "body-parser";
 import pkg from "pg";
 const { Pool } = pkg;
 import multer from "multer";
-import path from "path";
 import fs from "fs";
 import dotenv from "dotenv";
 

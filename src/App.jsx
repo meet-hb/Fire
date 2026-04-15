@@ -71,7 +71,7 @@ function AppContent() {
           features: features || [],
           expertise: expertise || content.expertise
         });
-      } catch (err) {
+      } catch {
         console.warn("Backend not ready yet, using static content.");
         setNavData(content.navigation);
         setFooterData(content.footer);

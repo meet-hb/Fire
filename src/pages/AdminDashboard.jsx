@@ -4,7 +4,7 @@ import {
   BarChart3, Layout, FileText, Globe, Video, Image as ImageIcon, 
   Award, Clock, Users, LogOut, Save, Search, Bell, Menu, X, Plus,
   ChevronRight, ArrowUpRight, Flame, Shield, Activity, Settings, 
-  Trash2, Edit3, Smartphone, Laptop, Tablet, Box, Upload
+  Trash2, Edit3, Smartphone, Laptop, Tablet, Box, Upload, CheckCheck, AlertTriangle
 } from 'lucide-react';
 import { getContent, updateContent, API_URL } from '../api/contentService';
 import { fetchAdminProfile } from '../api/adminProfileService';
@@ -19,7 +19,34 @@ const AdminDashboard = () => {
   const [message, setMessage] = useState('');
   const [previewMode, setPreviewMode] = useState('desktop');
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [adminProfile, setAdminProfile] = useState(defaultAdminProfile);
+  const [notifications, setNotifications] = useState([
+    {
+      id: 1,
+      title: 'Profile sync completed',
+      description: 'Your latest admin profile details are now visible across the dashboard.',
+      time: 'Just now',
+      unread: true,
+      tone: 'success',
+    },
+    {
+      id: 2,
+      title: 'Content review recommended',
+      description: 'Please review hero banner and footer copy before the client handoff.',
+      time: '10 min ago',
+      unread: true,
+      tone: 'warning',
+    },
+    {
+      id: 3,
+      title: 'Website backup ready',
+      description: 'A fresh deployment snapshot is available for final QA and publishing.',
+      time: '1 hour ago',
+      unread: false,
+      tone: 'neutral',
+    },
+  ]);
 
   const menuItems = [
     { id: 'overview', label: 'Dashboard', icon: BarChart3 },
@@ -157,6 +184,12 @@ const AdminDashboard = () => {
     }
   };
 
+  const unreadCount = notifications.filter((item) => item.unread).length;
+
+  const markAllNotificationsRead = () => {
+    setNotifications((prev) => prev.map((item) => ({ ...item, unread: false })));
+  };
+
   return (
     <div className="min-h-screen bg-[#F8F9FA] flex font-sans text-slate-800">
       {/* 🚀 Sleek Sidebar Backdrop (Mobile Only) */}
@@ -168,6 +201,18 @@ const AdminDashboard = () => {
             exit={{ opacity: 0 }}
             onClick={() => setIsSidebarOpen(false)}
             className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[49] lg:hidden"
+          />
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {isNotificationOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsNotificationOpen(false)}
+            className="fixed inset-0 z-[54] bg-black/30 backdrop-blur-sm"
           />
         )}
       </AnimatePresence>
@@ -354,8 +399,16 @@ const AdminDashboard = () => {
               </AnimatePresence>
             </div>
 
-            <button className="p-3 sm:p-3.5 rounded-2xl bg-[#1A1A1A] text-white shadow-xl shadow-black/10 hover:scale-105 active:scale-95 transition-all">
+            <button
+              onClick={() => setIsNotificationOpen(true)}
+              className="relative p-3 sm:p-3.5 rounded-2xl bg-[#1A1A1A] text-white shadow-xl shadow-black/10 hover:scale-105 active:scale-95 transition-all"
+            >
               <Bell size={18} />
+              {unreadCount > 0 && (
+                <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-black shadow-lg shadow-primary/30">
+                  {unreadCount}
+                </span>
+              )}
             </button>
           </div>
         </header>
@@ -696,6 +749,58 @@ const AdminDashboard = () => {
           </div>
         </main>
       </div>
+
+      <AnimatePresence>
+        {isNotificationOpen && (
+          <motion.aside
+            initial={{ x: 420, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: 420, opacity: 0 }}
+            transition={{ type: 'spring', stiffness: 280, damping: 28 }}
+            className="fixed right-0 top-0 z-[55] h-screen w-full max-w-md border-l border-slate-200 bg-white shadow-[0_30px_80px_rgba(15,23,42,0.18)]"
+          >
+            <div className="flex h-full flex-col">
+              <div className="border-b border-slate-100 px-6 py-6 sm:px-8">
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <p className="text-[10px] font-black uppercase tracking-[0.35em] text-primary">Notification Center</p>
+                    <h3 className="mt-2 text-2xl font-black text-slate-900">Admin Notifications</h3>
+                    <p className="mt-2 text-sm font-medium text-slate-500">
+                      Track profile changes, publishing reminders, and dashboard activity in one place.
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => setIsNotificationOpen(false)}
+                    className="rounded-2xl bg-slate-100 p-3 text-slate-500 transition-all hover:bg-slate-900 hover:text-white"
+                  >
+                    <X size={18} />
+                  </button>
+                </div>
+
+                <div className="mt-6 flex items-center justify-between rounded-[1.75rem] bg-slate-50 px-5 py-4">
+                  <div>
+                    <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">Unread Alerts</p>
+                    <p className="mt-1 text-2xl font-black text-slate-900">{unreadCount}</p>
+                  </div>
+                  <button
+                    onClick={markAllNotificationsRead}
+                    className="inline-flex items-center gap-2 rounded-full bg-slate-900 px-4 py-3 text-[11px] font-black uppercase tracking-[0.2em] text-white transition-all hover:bg-primary"
+                  >
+                    <CheckCheck size={14} />
+                    Mark All Read
+                  </button>
+                </div>
+              </div>
+
+              <div className="flex-1 space-y-4 overflow-y-auto px-6 py-6 sm:px-8">
+                {notifications.map((item) => (
+                  <NotificationCard key={item.id} notification={item} />
+                ))}
+              </div>
+            </div>
+          </motion.aside>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
@@ -768,6 +873,44 @@ const StatCard = ({ label, value, growth, icon: Icon, color }) => (
     </div>
   </div>
 );
+
+const NotificationCard = ({ notification }) => {
+  const toneStyles = {
+    success: {
+      icon: CheckCheck,
+      accent: 'bg-emerald-50 text-emerald-600',
+    },
+    warning: {
+      icon: AlertTriangle,
+      accent: 'bg-amber-50 text-amber-600',
+    },
+    neutral: {
+      icon: Bell,
+      accent: 'bg-slate-100 text-slate-600',
+    },
+  };
+
+  const tone = toneStyles[notification.tone] || toneStyles.neutral;
+  const Icon = tone.icon;
+
+  return (
+    <div className={`rounded-[2rem] border p-5 shadow-sm transition-all ${notification.unread ? 'border-primary/20 bg-primary/5' : 'border-slate-100 bg-white'}`}>
+      <div className="flex items-start gap-4">
+        <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl ${tone.accent}`}>
+          <Icon size={18} />
+        </div>
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center justify-between gap-3">
+            <h4 className="text-sm font-black text-slate-900">{notification.title}</h4>
+            {notification.unread && <span className="h-2.5 w-2.5 rounded-full bg-primary" />}
+          </div>
+          <p className="mt-2 text-sm font-medium leading-6 text-slate-500">{notification.description}</p>
+          <p className="mt-3 text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">{notification.time}</p>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const InputField = ({ label, value, onChange, type = "text" }) => (
   <div className="space-y-3">

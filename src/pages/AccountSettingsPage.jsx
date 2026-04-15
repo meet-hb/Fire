@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Save, Upload, UserRound, Mail, Phone, Globe, MapPin, Briefcase, Building2, FileText, Activity } from 'lucide-react';
-import { API_URL, getContent, updateContent } from '../api/contentService';
+import { getContent, updateContent } from '../api/contentService';
 import { defaultAdminProfile, normalizeAdminProfile } from '../data/adminProfile';
 
 const AccountSettingsPage = () => {
@@ -50,25 +50,24 @@ const AccountSettingsPage = () => {
     const file = event.target.files?.[0];
     if (!file) return;
 
-    const uploadData = new FormData();
-    uploadData.append('image', file);
-
     try {
       setSaving(true);
-      const response = await fetch(`${API_URL}/upload`, {
-        method: 'POST',
-        body: uploadData,
+      const imageDataUrl = await fileToDataUrl(file);
+      setFormData((prev) => ({ ...prev, avatar: imageDataUrl }));
+      const result = await updateContent('adminProfile', {
+        ...formData,
+        avatar: imageDataUrl,
       });
-      const result = await response.json();
 
-      if (result.url) {
-        handleChange('avatar', result.url);
-        setMessage('Profile image uploaded successfully.');
-        setTimeout(() => setMessage(''), 3000);
+      if (!result.success) {
+        throw new Error(result.error || 'Profile image update failed.');
       }
+
+      setMessage('Profile image updated successfully.');
+      setTimeout(() => setMessage(''), 3000);
     } catch (error) {
       console.error('Avatar upload failed:', error);
-      setMessage('Avatar upload failed. Please try again.');
+      setMessage(error.message || 'Avatar upload failed. Please try again.');
     } finally {
       setSaving(false);
     }
@@ -216,6 +215,14 @@ const AccountSettingsPage = () => {
     </div>
   );
 };
+
+const fileToDataUrl = (file) =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = () => reject(new Error('Failed to read file.'));
+    reader.readAsDataURL(file);
+  });
 
 const ProfileMeta = ({ icon: Icon, label, value }) => (
   <div className="flex items-center gap-4 rounded-[1.75rem] border border-slate-100 bg-white px-5 py-4 shadow-sm">

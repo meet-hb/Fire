@@ -1,6 +1,7 @@
 import { getContent, updateContent } from './contentService';
 import {
   ADMIN_PROFILE_STORAGE_KEY,
+  getAdminProfileTimestamp,
   normalizeAdminProfile,
 } from '../data/adminProfile';
 
@@ -29,18 +30,37 @@ export const cacheAdminProfile = (profile) => {
 export const fetchAdminProfile = async () => {
   const cachedProfile = getCachedAdminProfile();
   const remoteProfile = await getContent('adminProfile');
-  const resolvedProfile = normalizeAdminProfile(remoteProfile || cachedProfile);
+  const normalizedCachedProfile = cachedProfile
+    ? normalizeAdminProfile(cachedProfile)
+    : null;
+  const normalizedRemoteProfile = remoteProfile
+    ? normalizeAdminProfile(remoteProfile)
+    : null;
+
+  const resolvedProfile =
+    getAdminProfileTimestamp(normalizedCachedProfile) >=
+    getAdminProfileTimestamp(normalizedRemoteProfile)
+      ? normalizedCachedProfile || normalizedRemoteProfile
+      : normalizedRemoteProfile || normalizedCachedProfile;
+
   return cacheAdminProfile(resolvedProfile);
 };
 
 export const saveAdminProfile = async (profile) => {
-  const normalizedProfile = normalizeAdminProfile(profile);
+  const normalizedProfile = normalizeAdminProfile({
+    ...profile,
+    updatedAt: new Date().toISOString(),
+  });
+  cacheAdminProfile(normalizedProfile);
   const result = await updateContent('adminProfile', normalizedProfile);
 
   if (!result.success) {
-    return result;
+    return {
+      success: true,
+      profile: normalizedProfile,
+      warning: result.error || 'Saved locally. Remote sync failed.',
+    };
   }
 
-  cacheAdminProfile(normalizedProfile);
   return { success: true, profile: normalizedProfile };
 };

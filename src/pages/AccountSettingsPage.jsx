@@ -37,7 +37,8 @@ const AccountSettingsPage = () => {
     setSaving(false);
 
     if (result.success) {
-      setMessage('Account settings updated successfully.');
+      setFormData(result.profile || formData);
+      setMessage(result.warning || 'Account settings updated successfully.');
       setIsEditing(false);
       setTimeout(() => setMessage(''), 3000);
       return;
@@ -64,7 +65,8 @@ const AccountSettingsPage = () => {
         throw new Error(result.error || 'Profile image update failed.');
       }
 
-      setMessage('Profile image updated successfully.');
+      setFormData(result.profile || nextProfile);
+      setMessage(result.warning || 'Profile image updated successfully.');
       setTimeout(() => setMessage(''), 3000);
     } catch (error) {
       console.error('Avatar upload failed:', error);

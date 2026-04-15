@@ -16,6 +16,7 @@ import CertificationsPage from './pages/CertificationsPage';
 import ClientsPage from './pages/ClientsPage';
 import ContactPage from './pages/ContactPage';
 import AdminDashboard from './pages/AdminDashboard';
+import AccountSettingsPage from './pages/AccountSettingsPage';
 import LoginPage from './pages/LoginPage';
 import { content } from './data/content';
 
@@ -114,6 +115,13 @@ function AppContent() {
           <Route path="/admin" element={
             localStorage.getItem('isAdminAuthenticated') === 'true' ? (
               <AdminDashboard />
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          } />
+          <Route path="/admin/settings" element={
+            localStorage.getItem('isAdminAuthenticated') === 'true' ? (
+              <AccountSettingsPage />
             ) : (
               <Navigate to="/login" replace />
             )

@@ -7,6 +7,7 @@ import {
   Trash2, Edit3, Smartphone, Laptop, Tablet, Box, Upload
 } from 'lucide-react';
 import { getContent, updateContent, API_URL } from '../api/contentService';
+import { defaultAdminProfile, normalizeAdminProfile } from '../data/adminProfile';
 
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState('overview');
@@ -17,6 +18,7 @@ const AdminDashboard = () => {
   const [message, setMessage] = useState('');
   const [previewMode, setPreviewMode] = useState('desktop');
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [adminProfile, setAdminProfile] = useState(defaultAdminProfile);
 
   const menuItems = [
     { id: 'overview', label: 'Dashboard', icon: BarChart3 },
@@ -44,6 +46,15 @@ const AdminDashboard = () => {
     };
     fetchData();
   }, [activeTab]);
+
+  useEffect(() => {
+    const fetchAdminProfile = async () => {
+      const profile = await getContent('adminProfile');
+      setAdminProfile(normalizeAdminProfile(profile));
+    };
+
+    fetchAdminProfile();
+  }, []);
 
   const handleUpdate = async () => {
     setSaving(true);
@@ -277,8 +288,8 @@ const AdminDashboard = () => {
                   </div>
                 </div>
                 <div className="hidden sm:block text-left">
-                  <p className="text-xs font-black text-slate-900 uppercase tracking-tighter">Admin User</p>
-                  <p className="text-[10px] font-bold text-slate-400">System Manager</p>
+                  <p className="text-xs font-black text-slate-900 uppercase tracking-tighter">{adminProfile.fullName}</p>
+                  <p className="text-[10px] font-bold text-slate-400">{adminProfile.role}</p>
                 </div>
                 <Settings size={14} className={`text-slate-300 transition-transform duration-300 ${isProfileOpen ? 'rotate-90' : ''}`} />
               </button>
@@ -303,11 +314,17 @@ const AdminDashboard = () => {
                     >
                       <div className="p-4 bg-slate-50 rounded-[1.5rem] mb-2">
                         <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Signed in as</p>
-                        <p className="text-sm font-black text-slate-900 truncate">admin@weldoseld.com</p>
+                        <p className="text-sm font-black text-slate-900 truncate">{adminProfile.email}</p>
                       </div>
                       
                       <div className="space-y-1">
-                        <button className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-slate-500 font-bold text-sm hover:bg-slate-50 transition-all">
+                        <button
+                          onClick={() => {
+                            setIsProfileOpen(false);
+                            window.location.href = '/admin/settings';
+                          }}
+                          className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-slate-500 font-bold text-sm hover:bg-slate-50 transition-all"
+                        >
                           <Settings size={16} /> Account Settings
                         </button>
                         <a 

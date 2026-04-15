@@ -238,4 +238,22 @@ app.get("/api", (req, res) => {
     res.send("<h1>🔥 WELDOSELD Vercel API is Live v1.1</h1>");
 });
 
+app.use((err, req, res, next) => {
+    console.error("Unhandled API error:", err?.message || err);
+
+    if (res.headersSent) {
+        return next(err);
+    }
+
+    if (err?.type === "entity.too.large") {
+        return res.status(413).json({ error: "Payload too large." });
+    }
+
+    if (err?.name === "MulterError") {
+        return res.status(400).json({ error: err.message || "Upload failed." });
+    }
+
+    return res.status(500).json({ error: "Internal server error." });
+});
+
 export default app;

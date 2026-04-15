@@ -12,12 +12,17 @@ export const getPool = () => {
   }
 
   if (!poolInstance) {
-    poolInstance = new Pool({
-      connectionString: process.env.DATABASE_URL,
-      ssl: {
-        rejectUnauthorized: false,
-      },
-    });
+    try {
+      poolInstance = new Pool({
+        connectionString: process.env.DATABASE_URL,
+        ssl: {
+          rejectUnauthorized: false,
+        },
+      });
+    } catch (error) {
+      console.error('Failed to initialize database pool:', error.message);
+      return null;
+    }
   }
 
   return poolInstance;
